@@ -39,6 +39,31 @@ defmodule Problems do
   def sum([]), do: 0
   def sum([el | rest]), do: el + sum(rest)
 
+  @doc """
+  ## Examples
+
+      Problems.each [1, 2, 3], fn(el) -> el end
+      :ok
+
+  """
+  def each([], _func), do: :ok
+  def each([head | tail], func) do
+    func.(head)
+    Problems.each(tail, func)
+  end
+
+  @doc """
+  ## Examples
+
+      iex> Problems.map [1, 2, 3], fn(el) -> el * 2 end
+      [2, 4, 6]
+
+  """
+  def map([], _func), do: []
+  def map([head | tail], func) do
+    [func.(head) | Problems.map(tail, func)]
+  end
+
 
   @doc """
   ## Examples
@@ -53,9 +78,7 @@ defmodule Problems do
       [1, 1, 2, 3, 5, 8]
   """
   @fib_seed [1, 1]
-  def fibonacci(n) when n < 3 do
-    Enum.take(@fib_seed, n)
-  end
+  def fibonacci(n) when n < 3, do: Enum.take(@fib_seed, n)
   def fibonacci(n) do
     last = fibonacci(n - 1)
     [x, y] = Enum.take(last, -2)
