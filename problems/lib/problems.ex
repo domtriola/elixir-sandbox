@@ -72,11 +72,18 @@ defmodule Problems do
       6
       iex> Problems.reduce [1, 2, 3, 4], fn(accum, el) -> accum * el end
       24
+      iex> Problems.reduce [1, 2, 3], 4, fn(accum, el) -> accum + el end
+      10
 
   """
   def reduce([el], _func), do: el
   def reduce([head | tail], func) do
     func.(head, Problems.reduce(tail, func))
+  end
+  
+  def reduce([], seed, _func), do: seed
+  def reduce([head | tail], seed, func) do
+    func.(seed, Problems.reduce(tail, head, func))
   end
 
 
