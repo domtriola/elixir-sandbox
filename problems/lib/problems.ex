@@ -24,4 +24,19 @@ defmodule Problems do
       end
     end
   end
+
+  @doc """
+  ## Examples
+
+      iex> Problems.sum([])
+      0
+      iex> Problems.sum([1, 2, 3, 4])
+      10
+  """
+  def sum([]) do
+    0
+  end
+  def sum([el | rest]) do
+    el + sum(rest)
+  end
 end
