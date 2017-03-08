@@ -68,6 +68,21 @@ defmodule Problems do
   @doc """
   ## Examples
 
+      iex> Problems.reduce [1, 2, 3], fn(accum, el) -> accum + el end
+      6
+      iex> Problems.reduce [1, 2, 3, 4], fn(accum, el) -> accum * el end
+      24
+
+  """
+  def reduce([el], _func), do: el
+  def reduce([head | tail], func) do
+    func.(head, Problems.reduce(tail, func))
+  end
+
+
+  @doc """
+  ## Examples
+
       iex> Problems.fibonacci(0)
       []
       iex> Problems.fibonacci(1)
