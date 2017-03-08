@@ -26,6 +26,7 @@ defmodule Problems do
     end
   end
 
+
   @doc """
   ## Examples
 
@@ -37,4 +38,27 @@ defmodule Problems do
   """
   def sum([]), do: 0
   def sum([el | rest]), do: el + sum(rest)
+
+
+  @doc """
+  ## Examples
+
+      iex> Problems.fibonacci(0)
+      []
+      iex> Problems.fibonacci(1)
+      [1]
+      iex> Problems.fibonacci(2)
+      [1, 1]
+      iex> Problems.fibonacci(6)
+      [1, 1, 2, 3, 5, 8]
+  """
+  @fib_seed [1, 1]
+  def fibonacci(n) when n < 3 do
+    Enum.take(@fib_seed, n)
+  end
+  def fibonacci(n) do
+    last = fibonacci(n - 1)
+    [x, y] = Enum.take(last, -2)
+    last ++ [x + y]
+  end
 end
