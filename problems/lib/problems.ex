@@ -35,10 +35,6 @@ defmodule Problems do
       10
 
   """
-  def sum([]) do
-    0
-  end
-  def sum([el | rest]) do
-    el + sum(rest)
-  end
+  def sum([]), do: 0
+  def sum([el | rest]), do: el + sum(rest)
 end
