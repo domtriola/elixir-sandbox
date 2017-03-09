@@ -74,8 +74,6 @@ defmodule Problems do
       6
       iex> Problems.reduce [1, 2, 3, 4], fn(accum, el) -> accum * el end
       24
-      iex> Problems.reduce [1, 2, 3], 4, fn(accum, el) -> accum + el end
-      10
 
   """
   def reduce([el], _func), do: el
@@ -83,16 +81,25 @@ defmodule Problems do
     func.(head, Problems.reduce(tail, func))
   end
 
+  @doc """
+  ## Examples
+
+      iex> Problems.reduce [1, 2, 3], 4, fn(accum, el) -> accum + el end
+      10
+
+  """
   def reduce([], seed, _func), do: seed
   def reduce([head | tail], seed, func) do
     func.(seed, Problems.reduce(tail, head, func))
   end
 
+
   @doc """
-  ##Examples
+  ## Examples
 
       iex> Problems.select [1, 2, 3, 4], fn(el) -> rem(el, 2) == 0 end
       [2, 4]
+
   """
   def select([], _func), do: []
   def select([head | tail], func) do
@@ -104,6 +111,7 @@ defmodule Problems do
     end
   end
 
+
   @doc """
   ## Examples
 
@@ -111,6 +119,7 @@ defmodule Problems do
       true
       iex> Problems.any [1, 3, 5, 7], fn(el) -> rem(el, 2) == 0 end
       false
+
   """
   def any([], _func), do: false
   def any([head | tail], func) do
@@ -126,6 +135,27 @@ defmodule Problems do
   @doc """
   ## Examples
 
+      iex> Problems.rotate([1, 2, 3])
+      [2, 3, 1]
+      iex> Problems.rotate([1, 2, 3, 4], 2)
+      [3, 4, 1, 2]
+
+  """
+  def rotate(list, shift \\ 1)
+  def rotate([], _shift), do: []
+  def rotate([head | tail], shift) do
+    cond do
+      shift > 0 ->
+        rotate(tail ++ [head], shift - 1)
+      true ->
+        [head | tail]
+    end
+  end
+
+
+  @doc """
+  ## Examples
+
       iex> Problems.fibonacci(0)
       []
       iex> Problems.fibonacci(1)
@@ -134,6 +164,7 @@ defmodule Problems do
       [1, 1]
       iex> Problems.fibonacci(6)
       [1, 1, 2, 3, 5, 8]
+
   """
   @fib_seed [1, 1]
   def fibonacci(n) when n < 3, do: Enum.take(@fib_seed, n)
