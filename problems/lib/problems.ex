@@ -91,8 +91,8 @@ defmodule Problems do
   @doc """
   ##Examples
 
-      iex> Problems.select [1, 2, 3], fn(el) -> rem(el, 2) == 0 end
-      [2]
+      iex> Problems.select [1, 2, 3, 4], fn(el) -> rem(el, 2) == 0 end
+      [2, 4]
   """
   def select([], _func), do: []
   def select([head | tail], func) do
@@ -101,6 +101,24 @@ defmodule Problems do
         [head | Problems.select(tail, func)]
       _else ->
         Problems.select(tail, func)
+    end
+  end
+
+  @doc """
+  ## Examples
+
+      iex> Problems.any [1, 2, 3], fn(el) -> rem(el, 2) == 0 end
+      true
+      iex> Problems.any [1, 3, 5, 7], fn(el) -> rem(el, 2) == 0 end
+      false
+  """
+  def any([], _func), do: false
+  def any([head | tail], func) do
+    case func.(head) do
+      true ->
+        true
+      _else ->
+        Problems.any(tail, func)
     end
   end
 
