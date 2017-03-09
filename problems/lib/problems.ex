@@ -39,6 +39,7 @@ defmodule Problems do
   def sum([]), do: 0
   def sum([el | rest]), do: el + sum(rest)
 
+
   @doc """
   ## Examples
 
@@ -51,6 +52,7 @@ defmodule Problems do
     func.(head)
     Problems.each(tail, func)
   end
+
 
   @doc """
   ## Examples
@@ -80,10 +82,26 @@ defmodule Problems do
   def reduce([head | tail], func) do
     func.(head, Problems.reduce(tail, func))
   end
-  
+
   def reduce([], seed, _func), do: seed
   def reduce([head | tail], seed, func) do
     func.(seed, Problems.reduce(tail, head, func))
+  end
+
+  @doc """
+  ##Examples
+
+      iex> Problems.select [1, 2, 3], fn(el) -> rem(el, 2) == 0 end
+      [2]
+  """
+  def select([], _func), do: []
+  def select([head | tail], func) do
+    case func.(head) do
+      true ->
+        [head | Problems.select(tail, func)]
+      _else ->
+        Problems.select(tail, func)
+    end
   end
 
 
