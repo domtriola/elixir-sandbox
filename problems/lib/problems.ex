@@ -156,6 +156,19 @@ defmodule Problems do
   @doc """
   ## Examples
 
+      iex> Problems.uniq([1, 2, 2, 4, 4])
+      [1, 2, 4]
+
+  """
+  def uniq(list) do
+    MapSet.new(list)
+    |> MapSet.to_list
+  end
+
+
+  @doc """
+  ## Examples
+
       iex> Problems.fibonacci(0)
       []
       iex> Problems.fibonacci(1)
