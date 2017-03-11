@@ -6,6 +6,19 @@ defmodule Problems do
   @doc """
   ## Examples
 
+      iex> Problems.range(0, 10)
+      [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+
+  """
+  def range(x, y) when x > y, do: []
+  def range(x, y) when x == y, do: [x]
+  def range(x, y) do
+    [x] ++ range(x + 1, y)
+  end
+
+  @doc """
+  ## Examples
+
       iex> Problems.fizz_buzz(20)
       [1, 2, "Fizz", 4, "Buzz", "Fizz", 7, 8, "Fizz", "Buzz", 11,
        "Fizz", 13, 14, "FizzBuzz", 16, 17, "Fizz", 19, "Buzz"]
