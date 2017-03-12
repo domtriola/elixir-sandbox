@@ -182,6 +182,24 @@ defmodule Problems do
   @doc """
   ## Examples
 
+      iex> Problems.flatten([1, [2], [3, [4]]])
+      [1, 2, 3, 4]
+
+  """
+  def flatten([]), do: []
+  def flatten([head | tail]) do
+    cond do
+      is_list(head) ->
+        Problems.flatten(head) ++ Problems.flatten(tail)
+      true ->
+        [head] ++ Problems.flatten(tail)
+    end
+  end
+
+
+  @doc """
+  ## Examples
+
       iex> Problems.fibonacci(0)
       []
       iex> Problems.fibonacci(1)
