@@ -29,4 +29,7 @@ defmodule ChatServer do
   def handle_cast({:create, content}, state) do
     {:noreply, state ++ [%Message{content: content}]}
   end
+  def handle_cast(request, state) do
+    super(request, state)
+  end
 end
