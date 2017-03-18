@@ -2,6 +2,7 @@ defmodule ChatServer do
   use GenServer
   alias ChatServer.Message
 
+  # Client
   def start_link do
     GenServer.start_link(__MODULE__, :ok, name: :chat_room)
   end
@@ -15,6 +16,7 @@ defmodule ChatServer do
   end
 
 
+  # Server
   def init(:ok) do
     {:ok, []}
   end
@@ -33,3 +35,30 @@ defmodule ChatServer do
     super(request, state)
   end
 end
+
+# {:ok, pid} = ChatServer.start_link
+# ChatServer.get() # => []
+# ChatServer.create("hello world")
+# ChatServer.get() # => [%ChatServer.Message{content: "hello world", username: "anon"}]
+
+
+defmodule ChatServer.Supervisor do
+  use Supervisor
+
+  def start_link do
+    Supervisor.start_link(__MODULE__, [], name: :chat_supervisor)
+  end
+
+  def init(default) do
+    children = [
+      worker(ChatServer, [])
+    ]
+
+    supervise(children, strategy: :one_for_one)
+  end
+end
+
+# ChatServer.Supervisor.start_link
+# ChatServer.get() # => []
+# ChatServer.create(, "hello world")
+# ChatServer.get() # => [%ChatServer.Message{content: "chach", username: "anon"}]
