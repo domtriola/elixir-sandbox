@@ -1,5 +1,6 @@
 defmodule ChatServer do
   use GenServer
+  alias ChatServer.Message
 
   def start_link do
     GenServer.start_link(__MODULE__, :ok, name: :chat_room)
@@ -23,5 +24,9 @@ defmodule ChatServer do
   end
   def handle_call(request, from, state) do
     super(request, from, state)
+  end
+
+  def handle_cast({:create, content}, state) do
+    {:noreply, state ++ [%Message{content: content}]}
   end
 end
