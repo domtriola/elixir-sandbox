@@ -1,18 +1,27 @@
 defmodule ChatServer do
-  @moduledoc """
-  Documentation for ChatServer.
-  """
+  use GenServer
 
-  @doc """
-  Hello world.
+  def start_link do
+    GenServer.start_link(__MODULE__, :ok, name: :chat_room)
+  end
 
-  ## Examples
+  def get do
+    GenServer.call(:chat_room, {:get})
+  end
 
-      iex> ChatServer.hello
-      :world
+  def create(content) do
+    GenServer.cast(:chat_room, {:create, content})
+  end
 
-  """
-  def hello do
-    :world
+
+  def init(:ok) do
+    {:ok, []}
+  end
+
+  def handle_call({:get}, _from, state) do
+    {:reply, state, state}
+  end
+  def handle_call(request, from, state) do
+    super(request, from, state)
   end
 end
