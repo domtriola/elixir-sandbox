@@ -46,10 +46,10 @@ defmodule ChatServer.Supervisor do
   use Supervisor
 
   def start_link do
-    Supervisor.start_link(__MODULE__, [], name: :chat_supervisor)
+    Supervisor.start_link(__MODULE__, :ok, name: :chat_supervisor)
   end
 
-  def init(default) do
+  def init(:ok) do
     children = [
       worker(ChatServer, [])
     ]
@@ -60,5 +60,10 @@ end
 
 # ChatServer.Supervisor.start_link
 # ChatServer.get() # => []
-# ChatServer.create(, "hello world")
-# ChatServer.get() # => [%ChatServer.Message{content: "chach", username: "anon"}]
+# ChatServer.create("hello world")
+# ChatServer.get() # => [%ChatServer.Message{content: "hello world", username: "anon"}]
+
+# Process.whereis(:chat_room)
+# Process.whereis(:chat_room) |> Process.exit(:kill)
+# Process.whereis(:chat_room)
+# ChatServer.get() # => []
