@@ -1,0 +1,20 @@
+<div class="jumbotron">
+  <h2><%= gettext "Welcome to %{name}", name: "Phoenix!" %></h2>
+  <p class="lead">A productive web framework that<br />does not compromise speed and maintainability.</p>
+</div>
+
+<aside>
+  <label>chat room:
+    <input id='room-input' placeholder='room name' value='lobby' />
+  </label>
+  <ul id='room-list'>
+  </ul>
+</aside>
+
+<section>
+  <ul id='chat-list'>
+  </ul>
+  <label>chat message:
+    <input id='chat-input' placeholder='chat...' />
+  </label>
+</section>
