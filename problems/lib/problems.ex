@@ -1,3 +1,5 @@
+require IEx
+
 defmodule Problems do
   @moduledoc """
   Documentation for Problems.
@@ -216,5 +218,36 @@ defmodule Problems do
     last = fibonacci(n - 1)
     [x, y] = Enum.take(last, -2)
     last ++ [x + y]
+  end
+
+  @doc """
+  ## Examples
+
+      iex> Problems.mergesort([4, 1, 6, 5, 2, 3, 7])
+      [1, 2, 3, 4, 5, 6, 7]
+
+  """
+  def mergesort([]), do: []
+  def mergesort([x]), do: [x]
+  def mergesort(list) do
+    mid = div(length(list), 2)
+    left = Enum.take(list, mid)
+    right = Enum.drop(list, mid)
+
+    merge(mergesort(left), mergesort(right))
+  end
+
+  def merge([], right), do: right
+  def merge(left, []), do: left
+  def merge(left, right) do
+    [lh | lt] = left
+    [rh | rt] = right
+
+    cond do
+      lh <= rh ->
+        [lh | merge(lt, right)]
+      true ->
+        [rh | merge(rt, left)]
+    end
   end
 end
