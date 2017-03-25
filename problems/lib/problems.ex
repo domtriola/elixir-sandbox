@@ -239,10 +239,7 @@ defmodule Problems do
 
   def merge([], right), do: right
   def merge(left, []), do: left
-  def merge(left, right) do
-    [lh | lt] = left
-    [rh | rt] = right
-
+  def merge([lh | lt] = left, [rh | rt] = right) do
     cond do
       lh <= rh ->
         [lh | merge(lt, right)]
