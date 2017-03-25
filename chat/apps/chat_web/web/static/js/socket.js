@@ -54,9 +54,40 @@ let socket = new Socket("/socket", {params: {token: window.userToken}})
 socket.connect()
 
 // Now that you are connected, you can join channels with a topic:
-let channel           = socket.channel("room:lobby", {})
-let chatInput         = document.querySelector("#chat-input")
-let messagesContainer = document.querySelector("#messages")
+let channel
+let newChannel = socket.channel("room:lobby", {})
+
+let chatInput = document.querySelector("#chat-input")
+let messagesContainer = document.querySelector("#chat-list")
+let roomInput = document.querySelector("#room-input")
+let roomsContainer = document.querySelector("#room-list")
+
+let loadMessages = resp => {
+  console.log("Joined successfully", resp)
+  messagesContainer.innerHTML = ''
+  resp.forEach(msg => {
+    let messageItem = document.createElement("li");
+    messageItem.innerText = `${msg.username}: ${msg.content}`
+    messagesContainer.appendChild(messageItem)
+  })
+}
+
+let joinChannel = newChannel => {
+  if(channel) {
+    channel.leave()
+  }
+  channel = newChannel
+  channel.join()
+    .receive("ok", resp => {
+      let roomItem = document.createElement("li")
+      roomItem.innerText = `${roomInput.value}`
+      roomsContainer.appendChild(roomItem)
+      loadMessages(resp)
+    })
+    .receive("error", resp => {
+      console.log("Unable to join", resp)
+    })
+}
 
 chatInput.addEventListener("keypress", event => {
   if(event.keyCode === 13){
@@ -65,14 +96,23 @@ chatInput.addEventListener("keypress", event => {
   }
 })
 
-channel.on("new_msg", payload => {
-  let messageItem = document.createElement("li");
-  messageItem.innerText = `[${Date()}] ${payload.body}`
-  messagesContainer.appendChild(messageItem)
+let channelOnMessage = channel => {
+  channel.on("new_msg", payload => {
+    let messageItem = document.createElement("li");
+    messageItem.innerText = `[${Date()}] ${payload.body}`
+    messagesContainer.appendChild(messageItem)
+  })
+}
+
+roomInput.addEventListener("keypress", event => {
+  if(event.keyCode === 13){
+    let newChannel = socket.channel(`room:${roomInput.value}`, {})
+    joinChannel(newChannel)
+    channelOnMessage(newChannel)
+  }
 })
 
-channel.join()
-  .receive("ok", resp => { console.log("Joined successfully", resp) })
-  .receive("error", resp => { console.log("Unable to join", resp) })
+joinChannel(newChannel)
+channelOnMessage(newChannel)
 
 export default socket

@@ -3,7 +3,18 @@
   <p class="lead">A productive web framework that<br />does not compromise speed and maintainability.</p>
 </div>
 
-<div>
-  <ul id="messages"></ul>
-  <input id="chat-input" type="text"></input>
-</div>
+<aside>
+  <label>chat room:
+    <input id='room-input' placeholder='room name' value='lobby' />
+  </label>
+  <ul id='room-list'>
+  </ul>
+</aside>
+
+<section>
+  <ul id='chat-list'>
+  </ul>
+  <label>chat message:
+    <input id='chat-input' placeholder='chat...' />
+  </label>
+</section>
